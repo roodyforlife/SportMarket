@@ -1,0 +1,118 @@
+﻿@model SportMarket.ViewModels.EditProductViewModel
+<link href="~/css/create.css" rel="stylesheet" />
+<div class="create">
+    <form asp-controller="AdminPanel" asp-action="EditProduct" method="post" enctype="multipart/form-data">
+        <div class="create__content">
+            <div class="create__content__title">
+                <h2>Редагування товару</h2>
+            </div>
+            <div class="create__content__items">
+                <div class="create__content__item">
+                    <div class="create__content__item__title">
+                        <h3>Опишіть у деталях</h3>
+                    </div>
+                    <div class="create__input">
+                        <div class="input__display">Вкажіть назву</div>
+                        <input type="text" tabindex="1" value="@Model.Product.Title" asp-for="Title">
+                        <span>
+                            <h6><span asp-validation-for="Title"></span></h6>
+                        </span>
+                    </div>
+                    <div class="create__input">
+                        <div class="create__input__display">
+                            <h3>Категорія</h3>
+                        </div>
+                        <div class="create__input__radio _scroll" style="max-height: 600px; overflow-y: auto;">
+                            <select name="ProductCategories" class="select__checkbox" id="custom_select" multiple asp-items="@Model.Categories"></select>
+                        </div>
+                        <span>
+                            <h6><span asp-validation-for="ProductCategories"></span></h6>
+                        </span>
+                    </div>
+                </div>
+                <div class="create__content__item">
+                    <div class="create__content__item__title">
+                        <h3>Фото</h3>
+                    </div>
+                    <span>Вибране фото буде на ообкладинці оголошення</span>
+                    <div class="create__item__photos">
+                        <div class="create__photos__item">
+                            <img src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Product.Image))" alt="">
+                            <input value="@Model.Image" type="file" id="uploadPhotos" accept=".jpg, .jpeg, .png, .webp" multiple="false" tabindex="2" onchange="UploadPhotos(event)" asp-for="Image">
+                            <label for="uploadPhotos">
+                                <span>
+                                    <h5>Додати фото</h5>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <span class="photo__error error__validation"></span>
+                    <span>
+                        <h6><span asp-validation-for="Image"></span></h6>
+                    </span>
+                </div>
+                <div class="create__content__item">
+                    <div class="create__content__item__title">
+                        <h3>Опис</h3>
+                    </div>
+                    <div class="create__item__textarea">
+                        <textarea cols="30" minlength="100" tabindex="3" maxlength="9000" rows="10" asp-for="Description" placeholder="@Model.Product.Description"></textarea>
+                        <div class="create__item___count"><span>0</span>/9000</div>
+                        <div class="input__display">Опишіть товар</div>
+                        <span>
+                            <h6><span asp-validation-for="Description"></span></h6>
+                        </span>
+                    </div>
+                </div>
+                <div class="create__content__item">
+                    <div class="create__content__item__title">
+                        <h3>Додаткова інформація</h3>
+                    </div>
+                    <div class="create__input">
+                        <div class="input__display">Кількість на складі</div>
+                        <input type="number" tabindex="4" min="1" max="9999999" value="@Model.Product.Quantity" asp-for="Quantity">
+                        <span>
+                            <h6><span asp-validation-for="Quantity"></span></h6>
+                        </span>
+                    </div>
+                    <div class="create__input">
+                        <div class="input__display">Кількість бонусів за товар</div>
+                        <input type="number" tabindex="4" value="@Model.Product.BonusNumber" asp-for="BonusNumber">
+                        <span>
+                            <h6><span asp-validation-for="BonusNumber"></span></h6>
+                        </span>
+                    </div>
+                    <div class="create__input">
+                        <div class="input__display">Відсоток знижки</div>
+                        <input type="number" tabindex="4" value="@Model.Product.SaleProcent" asp-for="SaleProcent">
+                        <span>
+                            <h6><span asp-validation-for="SaleProcent"></span></h6>
+                        </span>
+                    </div>
+                </div>
+                <div class="create__content__item">
+                    <div class="create__content__item__title">
+                        <h3>Ціна</h3>
+                    </div>
+                    <div class="create__input">
+                        <div class="input__display">Цена</div>
+                        <input type="number" tabindex="4" min="1" value="@Model.Product.Cost" max="9999999" asp-for="Cost">
+                        <span>
+                            <h6><span asp-validation-for="Cost"></span></h6>
+                        </span>
+                    </div>
+                </div>
+                <div class="create__content__item">
+                    <div class="create__item__block">
+                        <div class="create__item__button"><input type="submit" asp-route-productId="@Model.Product.ProductId" value="Редагувати"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="~/js/create.js"></script>
+<script src="~/js/category.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

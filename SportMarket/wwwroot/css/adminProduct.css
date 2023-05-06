@@ -1,0 +1,138 @@
+﻿@import url('var.css');
+
+.admin {
+}
+
+.admin__content {
+    padding: 0 30px;
+    margin: 0 auto;
+}
+
+.admin__content__table {
+    display: table;
+    width: 100%;
+    border: 1px solid var(--dark-gray-color);
+}
+
+.admin__table__row {
+    display: table-row;
+}
+
+    .admin__table__row a {
+        color: white;
+    }
+
+.admin__content__title h2 {
+    font-weight: 600;
+}
+
+.admin__table__row:first-child {
+    display: table-header-group;
+    background: var(--blue-color);
+    color: white;
+}
+
+    .admin__table__row:first-child .admin__table__cell {
+        border: 1px solid var(--blue-hover-color);
+    }
+
+.admin__table__row:first-child {
+    text-align: center;
+}
+
+.admin__table__cell {
+    display: table-cell;
+    padding: 10px;
+    border: 1px solid var(--dark-gray-color);
+}
+
+    .admin__table__cell img {
+        top: 0;
+        left: 0;
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+    }
+
+    .admin__table__cell a {
+        display: block;
+        color: rgb(61, 47, 255);
+        margin-bottom: 10px;
+    }
+
+        .admin__table__cell a:hover {
+            text-decoration: underline;
+        }
+
+.admin__content__search {
+    width: 100%;
+    margin: 20px 0;
+}
+
+.search__block {
+    display: flex;
+    align-items: center;
+    height: 50px;
+}
+
+    .search__block:last-child {
+        margin: 10px 0 0 0;
+    }
+
+    .search__block input,
+    .search__block select {
+        border: 1px solid var(--dark-gray-color);
+        padding: 0 20px;
+        border-radius: 5px;
+        margin-right: 20px;
+        height: 100%;
+    }
+
+    .search__block input {
+    }
+
+    .search__block select {
+        font-size: 16px;
+    }
+
+    .search__block button,
+    .request {
+        font-size: 16px;
+        background: var(--blue-color);
+        color: white;
+        padding: 0 20px;
+        border-radius: 5px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .search__block button:hover,
+        .request:hover {
+            background: var(--blue-hover-color);
+        }
+
+        select{
+            min-width: 200px;
+        }
+
+.admin__table__delete {
+    cursor: pointer;
+}
+
+.addCategory {
+    background: var(--blue-color);
+    color: white;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    padding: 0 20px;
+}
+
+.addCategory:hover {
+    background: var(--blue-hover-color);
+}

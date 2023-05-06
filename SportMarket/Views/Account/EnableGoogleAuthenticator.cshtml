@@ -1,0 +1,58 @@
+﻿@model SportMarket.ViewModels.ConfigureTwoFactorAuthenticatorModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en" class="_scroll">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/nullStyle.css">
+    <link rel="stylesheet" href="~/css/site.css">
+    <link rel="stylesheet" href="~/css/redact.css">
+    <link rel="stylesheet" href="~/css/twoFactor.css">
+    <title>Two-Factor</title>
+</head>
+
+<body>
+    <div class="container">
+        <form asp-controller="Account" asp-action="EnableGoogleAuthenticator" method="post">
+            <div class="content">
+                <div class="twoFactor__content">
+                    <div class="twoFactor__content__title">
+                        <h2>Установка двух-факторної аутентифікації</h2>
+                    </div>
+                    <div class="twoFactor__content__text">
+                        Щоб налаштувати двофакторну автентифікацію, відскануйте наведене нижче
+                        QR-код або скопіюйте унікальний ключ і вставте до вашої програми Google
+                        Authenticator. Після цього введіть код підтвердження.
+                    </div>
+                    <div class="twoFactor__code">
+                        <img src="@Model.BarcodeImageUrl" />
+                    </div>
+                    <div class="twoFactor__content__text">
+                        Setup code: @Model.SetupCode
+                    </div>
+                    <div class="update__input__block">
+                        <input type="text" asp-for="InputCode">
+                        <span class="input__display _unselectable">Код підтвердження</span>
+                        <span>
+                            <h6><span asp-validation-for="InputCode"></span></h6>
+                        </span>
+                    </div>
+                    <div class="update__content__submit">
+                        <button type="submit" asp-route-SetupCode="@Model.SetupCode" asp-route-BarcodeImageUrl="@Model.BarcodeImageUrl">
+                            <h5>Підтвердити</h5>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,241 @@
+﻿@model SportMarket.Models.Product
+
+    <link href="~/css/viewProduct.css" rel="stylesheet" />
+    <div class="view">
+        <div class="view__content">
+            <div class="view__content__items">
+                <div class="view__item">
+                    <div class="slider__conteiner">
+                        <div class="slider__conteiner__slide _unselectable">
+                            <img src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Image))" draggable="false" style="width: 100%;" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="view__content__items">
+                <div class="view__item">
+                    <div class="view__item__like" id="product__like" onclick="AddToLiked(@Model.ProductId, event)">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em"
+                             class="css-1d65b5y">
+                            <path fill="currentColor" class="hover__like"
+                                  @if (ViewBag.User.User is not null) { if (((IEnumerable<Like>)ViewBag.User.User.Likes).Any(x => x.Product.ProductId == Model.ProductId)) { @: style="fill: var(--red-color)"
+                                  } }
+                                  fill-rule="evenodd"
+                                  d="M17 2a6 6 0 0 0-5 2.686A6 6 0 0 0 7 2C3.692 2 1 4.691 1 8a5.97 5.97 0 0 0 1.233 3.633L10.709 22h2.583l8.5-10.399A5.942 5.942 0 0 0 23 8c0-3.309-2.691-6-6-6">
+                            </path>
+                        </svg>
+                    </div>
+                    <div class="view__item__text _unselectable">
+                        <div class="rating2">
+                            @{ string rating = "0%";
+                                if (Model.Comments.Count > 0)
+                                {
+                                    rating = ((100 * Model.Comments.Sum(x => x.Score)) / (Model.Comments.Count * 5)).ToString() + '%';
+                                }
+                            }
+                            <div class="rating2__body">
+                                <div class="rating2__active" style="width: @rating"></div>
+                            </div>
+                            <div class="rating2__value">@rating (@Model.Comments.Count)</div>
+                        </div>
+                    </div>
+                    <div class="view__item__categories">
+                        <h6>
+                            Категория товарa:
+                            @foreach (ProductCategory category in Model.ProductCategories)
+                            {
+                                <a asp-controller="Home" asp-action="Index" asp-route-selectCategories="@category.Category.CategoryId">@category.Category.CategoryName</a>
+                            }
+                        </h6>
+                    </div>
+                    <div class="view__item__title">
+                        <h3>@Model.Title</h3>
+                    </div>
+                    <div class="view__item__desc">
+                        <div class="view__desc__content">
+                            <h5>@Model.Description</h5>
+                        </div>
+                    </div>
+                    @if (Model.SaleProcent > 0)
+                    {
+                        var sale = Math.Round((double)((Model.Cost * 100) / (100 - Model.SaleProcent)));
+                        <div class="product__item__cost">
+                            <div>
+                                <span>@sale.ToString("N0") грн.</span>
+                                <div class="product__sale">
+                                    <h6>-@Model.SaleProcent%</h6>
+                                </div>
+                            </div>
+                            <h4 style=" color: var(--red-color)">@Model.Cost.ToString("N0") грн.</h4>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="product__item__cost">
+                            <h4>@Model.Cost.ToString("N0") грн.</h4>
+                        </div>
+                    }
+                    @if (Model.Quantity > 0)
+                    {
+                        if (Model.Quantity < 10)
+                        {
+                            <div class="view__item__available product__someAvailable">
+                                <h5>Закінчується</h5>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="view__item__available product__available">
+                                <h5>В наявності</h5>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="view__item__available product__notAvailable">
+                            <h5>Немає в наявності</h5>
+                        </div>
+                    }
+                    @if (Model.Quantity > 0)
+                    {
+                        <div class="_line"></div>
+                        <div class="addBasket__content__counter">
+                            <h4>Кі-сть:</h4>
+                            <div class="addBasket__minus" onclick="BasketCount(-1, event)"></div>
+                            <input type="number" id="basketCount" value="1">
+                            <div class="addBasket__plus" onclick="BasketCount(1, event)"></div>
+                        </div>
+                        <div class="addBasket__content__button" onclick="AddToBasket(@Model.ProductId)">
+                            <div class="addBasket__button__block">
+                                <div class="addBasket__button__icon">
+                                    <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="252.000000pt"
+                                         height="204.000000pt" viewBox="0 0 252.000000 204.000000"
+                                         preserveAspectRatio="xMidYMid meet">
+
+                                        <g transform="translate(0.000000,204.000000) scale(0.100000,-0.100000)"
+                                           fill="#000000" stroke="none">
+                                            <path d="M32 2007 c-33 -35 -30 -96 6 -130 28 -27 30 -27 164 -27 l136 0 27
+                -77 c15 -43 36 -96 45 -118 10 -22 28 -69 40 -105 12 -35 24 -69 28 -75 3 -5
+                16 -37 28 -70 12 -33 33 -93 47 -134 15 -40 31 -79 35 -85 5 -6 17 -38 27 -71
+                10 -33 21 -64 25 -70 4 -5 17 -37 28 -70 27 -78 70 -195 81 -220 29 -65 81
+                -209 81 -222 0 -9 -20 -33 -44 -54 -115 -101 -125 -275 -23 -386 58 -63 104
+                -83 198 -83 127 0 186 36 240 148 28 56 31 71 27 133 l-4 69 273 0 273 0 0
+                -88 c0 -80 3 -92 29 -133 64 -99 120 -129 244 -129 74 0 88 3 129 29 84 53
+                127 131 128 232 0 103 -39 177 -124 232 l-51 32 -549 5 c-475 4 -550 7 -556
+                20 -4 8 -17 39 -28 67 l-20 53 614 2 614 3 25 25 c15 15 34 57 49 105 13 44
+                40 134 61 200 21 66 45 147 54 180 9 33 20 65 24 71 3 7 14 43 23 80 8 38 19
+                73 24 79 11 14 50 160 50 190 0 13 -11 37 -24 52 l-24 28 -938 5 -938 5 -19
+                50 c-10 28 -24 64 -32 82 -8 17 -15 36 -15 42 0 21 -51 126 -67 139 -12 8 -71
+                12 -208 12 -187 0 -192 -1 -213 -23z m1153 -514 c3 -10 9 -75 12 -146 l6 -127
+                -219 2 -219 3 -26 70 c-14 39 -28 77 -32 85 -3 8 -15 41 -26 73 l-19 57 258 0
+                c236 0 258 -1 265 -17z m532 -30 c-4 -27 -9 -92 -13 -146 l-7 -97 -201 2 -201
+                3 -10 143 -10 142 224 0 224 0 -6 -47z m558 -25 c-13 -40 -33 -106 -46 -145
+                l-23 -73 -209 0 -209 0 6 88 c4 48 9 113 12 145 l6 57 243 0 244 0 -24 -72z
+                m-1061 -350 c3 -24 8 -82 11 -131 l6 -87 -167 2 -168 3 -7 25 c-4 14 -25 71
+                -47 128 l-39 102 203 0 203 0 5 -42z m472 -50 c-4 -51 -9 -110 -13 -130 l-6
+                -38 -172 0 -172 0 -12 113 c-6 62 -11 121 -11 130 0 15 19 17 196 17 l197 0
+                -7 -92z m491 80 c-2 -7 -21 -66 -41 -130 l-37 -118 -167 0 -168 0 3 68 c2 37
+                6 95 9 130 l6 62 200 0 c156 0 199 -3 195 -12z m-1152 -787 c24 -26 27 -35 22
+                -68 -10 -63 -75 -100 -122 -69 -14 9 -32 28 -41 42 -15 22 -15 30 -4 65 15 44
+                35 57 86 58 21 1 39 -8 59 -28z m1050 23 c20 -8 45 -56 45 -88 0 -40 -41 -80
+                -83 -80 -52 0 -87 35 -87 88 0 67 59 105 125 80z" />
+                                        </g>
+                                    </svg>
+                                </div>
+                                <h3>Додати в кошик</h3>
+                            </div>
+                        </div>
+                    }
+                    <div class="_line"></div>
+                    <h6 style="color: var(--dark-two-gray-color)">ID: @Model.ProductId</h6>
+                </div>
+                <div class="view__item">
+                    <div class="view__item__title _unselectable">
+                        <h3>Коментарі</h3>
+                    </div>
+                    <div class="comments">
+                        @if (ViewBag.User.User is not null)
+                        {
+                            <div class="comments__input">
+                                <div class="comments__input__block">
+                                    <div class="comments__block__image">
+                                        <img src="data:image/jpeg;base64,@(Convert.ToBase64String(ViewBag.User.User.Image))" alt="">
+                                    </div>
+                                    <div style="width: 100%;">
+                                        <div style="display: flex; align-items: center;">
+                                            <h5 style="color: var(--dark-two-gray-color);">Оцініть товар: </h5>
+                                            <div class="rating">
+                                                <div class="rating__items">
+                                                    <input type="radio" class="rating__items__item" name="Score"
+                                                           id="rating__5" value="5">
+                                                    <label for="rating__5" class="rating__label"></label>
+                                                    <input type="radio" class="rating__items__item" name="Score"
+                                                           id="rating__4" value="4">
+                                                    <label for="rating__4" class="rating__label"></label>
+                                                    <input type="radio" class="rating__items__item" name="Score"
+                                                           id="rating__3" value="3">
+                                                    <label for="rating__3" class="rating__label"></label>
+                                                    <input type="radio" class="rating__items__item" name="Score"
+                                                           id="rating__2" value="2">
+                                                    <label for="rating__2" class="rating__label"></label>
+                                                    <input type="radio" class="rating__items__item" name="Score"
+                                                           id="rating__1" value="1">
+                                                    <label for="rating__1" class="rating__label"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <textarea class="comments__input__textarea"
+                                                  placeholder="Напишіть відгук про товар..."></textarea>
+                                        <div class="comments__input__block">
+                                            <div class="comments__input__button" onclick="Comment(@Model.ProductId)">
+                                                <h5>Відправити</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div class="comments__items">
+                            @foreach (Comment comment in Model.Comments)
+                            {
+                                <div class="comments__items__item">
+                                    <div class="comments__item__block">
+                                        <div class="comments__block__image">
+                                            <img src="data:image/jpeg;base64,@(Convert.ToBase64String(comment.User.Image))" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="comments__item__block">
+                                        <div class="comments__block__title">
+                                            <div class="comments__title__name">
+                                                <h5 style="font-weight: 600;">@comment.User.Name @comment.User.Surname</h5>
+                                            </div>
+                                                <div class="rating">
+                                                    <div class="rating__items">
+                                                        @for (int i = 5; i != 0; i--)
+                                                        {
+                                                            <input disabled type="radio" class="rating__items__item"
+                                                                   @if (i == comment.Score) { @: checked
+                                                                   }
+                                                                   id="rating__@(i.ToString() + comment.CommentId.ToString())">
+                                                            <label for="rating__@(i.ToString() + comment.CommentId.ToString())" class="rating__label__view"></label>
+                                                        }
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        <div class="comments__block__text">
+                                            <h6>
+                                                @comment.Text
+                                            </h6>
+                                        </div>
+                                        <div class="comments__block__date">
+                                            <h6>Опубліковано: @comment.Date.ToString("dd.MM.yyyy")</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

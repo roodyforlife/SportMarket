@@ -1,0 +1,50 @@
+﻿@model SportMarket.ViewModels.LoginWith2fa
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en" class="_scroll">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/nullStyle.css">
+    <link rel="stylesheet" href="~/css/site.css">
+    <link rel="stylesheet" href="~/css/redact.css">
+    <link rel="stylesheet" href="~/css/twoFactor.css">
+    <title>Two-Factor</title>
+</head>
+
+<body>
+    <div class="container">
+        <form asp-controller="Account" asp-action="LoginWith2fa" method="post">
+            <div class="content">
+                <div class="twoFactor__content">
+                    <div class="twoFactor__content__title">
+                        <h2>Пройдіть двух=факторну аутентифікацію</h2>
+                    </div>
+                    <div class="twoFactor__content__text">
+                        Щоб увійти в обліковий запис, потрібно пройти двофакторну автентифікацію. Введіть код підтвердження.
+                    </div>
+                    <div class="update__input__block">
+                        <input type="text" name="code">
+                        <span class="input__display _unselectable">Код підтвердження</span>
+                        <span>
+                            <h6><span asp-validation-for="Code"></span></h6>
+                        </span>
+                    </div>
+                    <div class="update__content__submit">
+                        <button type="submit">
+                            <h5>Підтвердити</h5>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</body>
+
+</html>

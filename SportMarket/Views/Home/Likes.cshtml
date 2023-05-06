@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Like>
+
+    <link href="~/css/liked.css" rel="stylesheet" />
+    <div class="liked">
+        <div class="liked__content">
+            <div class="liked__content__title">
+                <h2>Обрані</h2>
+            </div>
+            @if (Model.ToList().Count == 0)
+            {
+                <div class="likes__content__empty">
+                    <h1>Список пустий</h1>
+                </div>
+            }
+            else
+            {
+                <div class="liked__content__delete" onclick="DeleteLikedList()"><h3>Очистити обрані</h3></div>
+                <div class="liked__content__items">
+                    @foreach (Like like in Model)
+                    {
+
+                        <div class="liked__content__item">
+                            <div class="liked__item__block">
+                                <div class="liked__block__image shimmer"><img src="data:image/jpeg;base64,@(Convert.ToBase64String(like.Product.Image))" alt="Alternate Text" /></div>
+                                <div class="liked__block__info">
+                                    <div class="liked__info__title">
+                                        <h3>@like.Product.Title</h3>
+                                    </div>
+                                    <div class="liked__info__cantegory">
+                                            <h6>
+                                                Категорія товарa:
+                                                @foreach (ProductCategory category in like.Product.ProductCategories)
+                                                {
+                                                    <a asp-controller="Home" asp-action="Index" asp-route-selectCategories="@category.Category.CategoryId">@category.Category.CategoryName</a>
+                                                }
+                                            </h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="liked__item__block">
+                                <div class="liked__block__cost">
+                                    <h4>@like.Product.Cost.ToString("N0") грн.</h4>
+                                </div>
+                                <div class="liked__block__button" onclick="DeleteLikeAsync(@like.LikeId, event)">
+                                    <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                                         width="48.000000pt" height="48.000000pt" viewBox="0 0 48.000000 48.000000"
+                                         preserveAspectRatio="xMidYMid meet">
+
+                                        <g transform="translate(0.000000,48.000000) scale(0.100000,-0.100000)"
+                                           fill="#000000" stroke="none">
+                                            <path d="M156 464 c-9 -8 -16 -26 -16 -39 0 -22 -4 -24 -57 -27 -44 -2 -58 -7
+                                   -58 -18 0 -13 31 -15 215 -15 184 0 215 2 215 15 0 11 -14 16 -57 18 -54 3
+                                   -58 5 -58 27 0 41 -25 55 -100 55 -49 0 -73 -4 -84 -16z m144 -44 c0 -18 -7
+                                   -20 -60 -20 -53 0 -60 2 -60 20 0 18 7 20 60 20 53 0 60 -2 60 -20z" />
+                                            <path d="M80 177 c0 -106 4 -157 12 -165 17 -17 279 -17 296 0 8 8 12 59 12
+                                   165 l0 153 -160 0 -160 0 0 -153z m120 -17 c0 -60 -4 -100 -10 -100 -6 0 -10
+                                   40 -10 100 0 60 4 100 10 100 6 0 10 -40 10 -100z m100 0 c0 -60 -4 -100 -10
+                                   -100 -6 0 -10 40 -10 100 0 60 4 100 10 100 6 0 10 -40 10 -100z" />
+                                        </g>
+                                    </svg>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>

@@ -1,0 +1,122 @@
+﻿@using System.ComponentModel.DataAnnotations;
+@using SportMarket.Enums;
+@model IEnumerable<OrderedBasket>
+
+<link href="~/css/orders.css" rel="stylesheet" />
+
+<div class="orders">
+    <div class="orders__content">
+        <div class="orders__content__title">
+            <h2>Мої замовлення</h2>
+        </div>
+        <div class="orders__items">
+            @if (Model.Count() > 0)
+            {
+                @foreach (OrderedBasket basket in Model)
+                {
+                    <div class="orders__items__item">
+                        <div class="orders__item__blocks">
+                            <div class="orders__item__block">
+                                @if (basket.Basket.Status == "Delivered")
+                                {
+                                    <span class="orders__item__line" style="background: var(--green-color)"></span>
+                                }
+                                else if (basket.Basket.Status == "Ordered")
+                                {
+                                    <span class="orders__item__line" style="background: var(--gray-color)"></span>
+                                }
+                                else if (basket.Basket.Status == "Rejected")
+                                {
+                                    <span class="orders__item__line" style="background: var(--red-color)"></span>
+                                }
+                                else if (basket.Basket.Status == "Processed")
+                                {
+                                    <span class="orders__item__line" style="background: var(--yellow-color)"></span>
+                                }
+                                <div>
+                                    <div class="orders__item__date">№@basket.Id @basket.Date.ToString("dd.MM.yyyy")</div>
+                                    <div class="orders__item__status">
+                                        @{var test = ((DisplayAttribute)(typeof(SportMarket.Enums.StatusBasket)).GetMember(basket.Basket.Status)[0]
+.GetCustomAttributes(typeof(DisplayAttribute), false)[0]).Name;} @test
+        </div>
+        </div>
+        </div>
+        <div class="orders__item__block" id="order__sum">
+            <div>
+                <div class="orders__item__date">Сума замовлення</div>
+                <div class="oreders__item__cost">@basket.Basket.Cards.Sum(x => x.Count * x.Product.Cost) грн.</div>
+            </div>
+        </div>
+        <div class="orders__item__block" style="align-items: center;">
+            <div class="orders__item__images" id="order__images">
+                @foreach (Card card in basket.Basket.Cards)
+                {
+                    <div class="orders__item__image"><img src="data:image/jpeg;base64,@(Convert.ToBase64String(card.Product.Image))" alt=""></div>
+                }
+            </div>
+            <div class="orders__item__chevron" onclick="OrderInformation(event)"></div>
+        </div>
+        </div>
+        <div class="orders__full">
+            <div class="orders__full__table">
+                <div class="orders__full__row">
+                    <div class="orders__full__cell">
+                        <div class="orders__cell__title">Інформація про замовлення</div>
+                        <p>@basket.Address.City.State.Name область, @basket.Address.City.Name, @basket.Address.Name</p>
+                        <p>@basket.Surname @basket.Name @basket.LastName</p>
+                        <p>@basket.Phone</p>
+                        <p>@basket.Email</p>
+                    </div>
+                    <div class="order__full__cell">
+                        <div class="orders__cell__title">Товари</div>
+                        <div class="order__content__items _scroll">
+                            @foreach (Card card in basket.Basket.Cards)
+                            {
+                                <div class="order__items__item">
+                                    <div class="order__item__block">
+                                        <div class="order__block__image">
+                                            <img src="data:image/jpeg;base64,@(Convert.ToBase64String(card.Product.Image))" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="order__item__block">
+                                        <a asp-controller="Home" asp-action="Product" asp-route-productId="@card.Product.ProductId" class="basket__item__title">
+                                            <h5>@card.Product.Title</h5>
+                                        </a>
+                                        <div style="display: flex; align-items: flex-end; justify-content: space-between;">
+                                            <div>
+                                                <div class="order__item__cost">
+                                                    <h5>@card.Product.Cost грн.</h5>
+                                                </div>
+                                                <div class="order__item__count">
+                                                    <h5>Кі-сть: @card.Count</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    }
+            }
+            else
+            {
+                <div style="width: 100%; text-align: center;"><h1>Ви ще нічого не замовляли</h1></div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    function OrderInformation(event) {
+        var block = $(event.target).parents(".orders__items__item")
+        $(block).children(".orders__full").toggleClass("_active");
+        $(block).find("#order__sum").toggleClass("_active");
+        $(block).find("#order__images").toggleClass("_active");
+        $(block).find(".orders__item__chevron").toggleClass("_active");
+    }
+</script>

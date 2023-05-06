@@ -1,0 +1,125 @@
+﻿@model SportMarket.ViewModels.AdminOrderViewModel
+<link href="~/css/adminProduct.css" rel="stylesheet" />
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+<script src="~/js/print.js"></script>
+<div class="admin">
+    <div class="admin__content">
+        <div class="admin__content__title">
+            <h2>Список замовлень</h2>
+        </div>
+        <form method="get">
+            <div class="admin__content__search">
+                <div class="search__block">
+                    <input type="number" name="orderId" value="@Model.OrdersFilterViewModel.SelectedId" placeholder="Номер замовлення">
+                    <div style="white-space: nowrap"><h4>Дата від: </h4></div>
+                    <input type="datetime-local" name="dateFrom" value="@Model.OrdersFilterViewModel.SelectedDateFrom.ToString("yyyy-MM-dd HH:mm")" />
+                    <div style="white-space: nowrap"><h4>Дата до: </h4></div>
+                    <input type="datetime-local" name="dateTo" value="@Model.OrdersFilterViewModel.SelectedDateTo.ToString("yyyy-MM-dd HH:mm")" />
+                    <h4>Категорія: </h4>
+                    <select name="selectedStatus" asp-items="Model.OrdersFilterViewModel.Statuses"></select>
+                    <button type="submit">Фільтр</button>
+                </div>
+                <div class="search__block">
+                    <div class="request" onclick="PrintAsImage('.admin__content__table', 'orders')">Роздрукувати звіт</div>
+                </div>
+            </div>
+        </form>
+        <div class="admin__content__table">
+            <div class="admin__table__row">
+                <div class="admin__table__cell">
+                    <h4>Id</h4>
+                </div>
+                <div class="admin__table__cell">
+                    <h4>ПІБ</h4>
+                </div>
+                <a asp-action="Orders"
+                   asp-route-sortOrder="@(Model.SortOrdersViewModel.EmailSort)"
+                   asp-route-orderId="@(Model.OrdersFilterViewModel.SelectedId)"
+                   asp-route-selectedStatus="@(Model.OrdersFilterViewModel.SelectedStatus)" class="admin__table__cell">
+                    <h4>Email</h4>
+                </a>
+                <a asp-action="Orders"
+                   asp-route-sortOrder="@(Model.SortOrdersViewModel.DateSort)"
+                   asp-route-orderId="@(Model.OrdersFilterViewModel.SelectedId)"
+                   asp-route-selectedStatus="@(Model.OrdersFilterViewModel.SelectedStatus)" class="admin__table__cell">
+                    <h4>Дата оформления</h4>
+                </a>
+                <div class="admin__table__cell">
+                    <h4>Списування бонусів</h4>
+                </div>
+                <div class="admin__table__cell">
+                    <h4>Кі-сть бонусів клієнта</h4>
+                </div>
+                <div class="admin__table__cell">
+                    <h4>Кі-сть бонусів за замовлення</h4>
+                </div>
+                <div class="admin__table__cell">
+                    <h4>Загальна ціна</h4>
+                </div>
+                <a asp-action="Orders"
+                   asp-route-sortOrder="@(Model.SortOrdersViewModel.StatusSort)"
+                   asp-route-orderId="@(Model.OrdersFilterViewModel.SelectedId)"
+                   asp-route-selectedStatus="@(Model.OrdersFilterViewModel.SelectedStatus)" class="admin__table__cell">
+                    <h4>Статус замовлення</h4>
+                </a>
+                <div class="admin__table__cell">
+                    <h4>Товари</h4>
+                </div>
+                <div class="admin__table__cell">
+                    <h4></h4>
+                </div>
+            </div>
+            @foreach (OrderedBasket order in Model.OrderedBaskets)
+            {
+                <div class="admin__table__row">
+                    <div class="admin__table__cell">
+                        <h5>@order.Id</h5>
+                    </div>
+                    <div class="admin__table__cell">
+                        <h5>@order.Surname @order.Name @order.LastName</h5>
+                    </div>
+                    <div class="admin__table__cell">
+                        <h5>@order.Email</h5>
+                    </div>
+                    <div class="admin__table__cell">
+                        <h5>@order.Date</h5>
+                    </div>
+                    <div class="admin__table__cell">
+                        <h5>@order.Bonuses</h5>
+                    </div>
+                    <div class="admin__table__cell">
+                        <h5>@order.Basket.User.Bonuses</h5>
+                    </div>
+                    <div class="admin__table__cell">
+                        <h5>@order.Basket.Cards.Sum(x => x.Product.BonusNumber * x.Count)</h5>
+                    </div>
+                    <div class="admin__table__cell">
+                        @if (order.Bonuses)
+                        {
+                            <h5>@(order.Basket.Cards.Sum(x => x.Product.Cost * x.Count) - order.Basket.User.Bonuses)</h5>
+                        }
+                        else
+                        {
+                            <h5>@order.Basket.Cards.Sum(x => x.Product.Cost * x.Count)</h5>
+                        }
+                    </div>
+                    <div class="admin__table__cell">
+                        <h5>@order.Basket.Status</h5>
+                    </div>
+                    <div class="admin__table__cell">
+                        @foreach (Card item in order.Basket.Cards)
+                        {
+                            <h5>@item.Product.Title (ID: @item.Product.ProductId)</h5>
+                            <br />
+                        }
+                    </div>
+                    <div class="admin__table__cell">
+                        <a asp-action="Order" asp-controller="AdminPanel" asp-route-orderId="@order.Id">
+                            <h5>Деталі</h5>
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

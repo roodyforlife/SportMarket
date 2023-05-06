@@ -1,0 +1,25 @@
+﻿@model IEnumerable<City>
+<select id="city" name="city">
+    @foreach (var item in Model)
+    {
+        <option value="@item.Id">@item.Name</option>
+    }
+</select>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#city').change(function () {
+            console.log('city')
+            var id = $(event.target).val();
+            $.ajax({
+                type: 'GET',
+                url: '../Home/GetAddresses/' + id,
+                success: function (response) {
+                    $('#address').replaceWith(response);
+                    $("#address").prop("disabled", false);
+                }
+            });
+        });
+    })
+</script>

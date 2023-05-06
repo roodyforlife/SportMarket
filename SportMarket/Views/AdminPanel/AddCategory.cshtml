@@ -1,0 +1,34 @@
+﻿@model SportMarket.Models.Category
+
+<link href="~/css/create.css" rel="stylesheet" />
+<div class="create">
+    <form asp-controller="AdminPanel" asp-action="AddCategory" method="post">
+        <div class="create__content">
+            <div class="create__content__title">
+                <h2>Створити категорію</h2>
+            </div>
+            <div class="create__content__items">
+                <div class="create__content__item">
+                    <div class="create__content__item__title">
+                        <h3>Стовіть неіснуючу категорію</h3>
+                    </div>
+                    <div class="create__input">
+                        <div class="input__display">Вкажіть назву</div>
+                        <input type="text" tabindex="1" asp-for="CategoryName">
+                        <span>
+                            <h6><span asp-validation-for="CategoryName"></span></h6>
+                        </span>
+                    </div>
+                </div>
+                <div class="create__content__item">
+                    <div class="create__item__block">
+                        <div class="create__item__button"><input type="submit" value="Додати"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

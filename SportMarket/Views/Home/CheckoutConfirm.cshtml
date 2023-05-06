@@ -1,0 +1,138 @@
+﻿@model SportMarket.Models.OrderedBasket
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en" class="_scroll">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/nullStyle.css">
+    <link rel="stylesheet" href="~/css/site.css">
+    <title>Підтвердження замовлення</title>
+</head>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <div class="container">
+        <div class="checkoutConfirm">
+            <div class="checkoutConfirm__content">
+                <div class="checkoutConfirm__title">Підтвердження замовлення №@Model.BasketId</div>
+                <div class="checkoutConfirm__text">
+                    <h5>
+                        <p>
+                            Підсумкова ціна до оплати становить: <span>
+                                @if (Model.Bonuses)
+                                {
+                                    @(Model.Basket.Cards.Sum(x => x.Count * x.Product.Cost) - Model.Basket.User.Bonuses)
+                                }
+                                else
+                                {
+                                    @Model.Basket.Cards.Sum(x => x.Count * x.Product.Cost)
+                                }
+                                грн.
+                            </span>
+                        </p>
+    
+                        <p style="color: var(--dark-two-gray-color);">Примітки: </p>
+    
+                            <p style="color: var(--dark-two-gray-color);">
+                                1. Якщо ви не бажаєте підтверджувати замовлення, натисніть
+                                на кнопку
+                                "Вихід".
+                            </p>
+                            <p style="color: var(--dark-two-gray-color);">
+                                2. Сплатити можна у відділенні Нової пошти за
+                                отримання товару за адресою: @Model.Address.City.State.Name область, г. @Model.Address.City.Name, @Model.Address.Name
+                            </p>
+                    </h5>
+                </div>
+                <form asp-controller="Home" asp-action="CheckoutConfirm" method="post">
+                    <div class="checkoutConfirm__buttons">
+                        <button
+                                asp-route-BasketId="@Model.BasketId"
+                                asp-route-Email="@Model.Email"
+                                asp-route-Name="@Model.Name"
+                                asp-route-Surname="@Model.Surname"
+                                asp-route-LastName="@Model.LastName"
+                                asp-route-Phone="@Model.Phone"
+                                asp-route-AddressId="@Model.AddressId"
+                                asp-route-Bonuses="@Model.Bonuses"
+                                asp-route-success="true" type="submit">Підтвердити</button>
+                        <a asp-controller="Home" asp-action="Index">Вихід</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <style>
+        .checkoutConfirm {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .checkoutConfirm__content {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 5px;
+        }
+
+        .checkoutConfirm__title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .checkoutConfirm__text p {
+            margin: 5px 0;
+        }
+
+        .checkoutConfirm__text span {
+            color: var(--red-color);
+            font-weight: 600;
+        }
+
+        .checkoutConfirm__buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+            .checkoutConfirm__buttons button,
+            .checkoutConfirm__buttons a {
+                display: block;
+                height: 40px;
+                border-radius: 5px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 0 20px;
+                font-size: 16px;
+            }
+
+                .checkoutConfirm__buttons button:hover,
+                .checkoutConfirm__buttons a:hover {
+                    opacity: 0.8;
+                }
+
+            .checkoutConfirm__buttons button {
+                background: var(--green-color);
+                color: white;
+            }
+
+            .checkoutConfirm__buttons a {
+                background: var(--red-color);
+                color: white;
+            }
+    </style>
+</body>
+
+</html>

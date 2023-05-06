@@ -1,0 +1,68 @@
+﻿@model SportMarket.Models.Basket
+@{ 
+    Layout = null;
+}
+
+<div class="basket__content">
+    <div class="basket__close"></div>
+    <div class="basket__content__items">
+        @if (Model is not null && Model.Cards.Count != 0)
+        {
+            @foreach (Card card in Model.Cards)
+            {
+                <div class="basket__items__item">
+                    <div class="basket__item__block">
+                        <div class="basket__block__image">
+                            <img src="data:image/jpeg;base64,@(Convert.ToBase64String(card.Product.Image))" alt="">
+                        </div>
+                    </div>
+                    <div class="basket__item__block">
+                        <a asp-controller="Home" asp-action="Product" asp-route-productId="@card.Product.ProductId" class="basket__item__title"><h4>@card.Product.Title</h4></a>
+                        <div style="display: flex; align-items: flex-end; justify-content: space-between;">
+                            <div>
+                                <div class="basket__item__cost">
+                                    <h4>@card.Product.Cost.ToString("N0") грн.</h4>
+                                </div>
+                                <div class="basket__item__count">
+                                    <h5>Кі-сть: @card.Count</h5>
+                                </div>
+                            </div>
+                            <div class="basket__delete" onclick="DeleteFromBasket(@card.CardId)">
+                                <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="48.000000pt"
+                                     height="48.000000pt" viewBox="0 0 48.000000 48.000000"
+                                     preserveAspectRatio="xMidYMid meet">
+
+                                    <g transform="translate(0.000000,48.000000) scale(0.100000,-0.100000)"
+                                       fill="#000000" stroke="none">
+                                        <path d="M156 464 c-9 -8 -16 -26 -16 -39 0 -22 -4 -24 -57 -27 -44 -2 -58 -7
+                           -58 -18 0 -13 31 -15 215 -15 184 0 215 2 215 15 0 11 -14 16 -57 18 -54 3
+                           -58 5 -58 27 0 41 -25 55 -100 55 -49 0 -73 -4 -84 -16z m144 -44 c0 -18 -7
+                           -20 -60 -20 -53 0 -60 2 -60 20 0 18 7 20 60 20 53 0 60 -2 60 -20z" />
+                                        <path d="M80 177 c0 -106 4 -157 12 -165 17 -17 279 -17 296 0 8 8 12 59 12
+                           165 l0 153 -160 0 -160 0 0 -153z m120 -17 c0 -60 -4 -100 -10 -100 -6 0 -10
+                           40 -10 100 0 60 4 100 10 100 6 0 10 -40 10 -100z m100 0 c0 -60 -4 -100 -10
+                           -100 -6 0 -10 40 -10 100 0 60 4 100 10 100 6 0 10 -40 10 -100z" />
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <a asp-controller="Home" asp-action="Checkout" asp-route-basketId="@Model.BasketId" class="basket__items__button">
+                <div class="basket__button__block">
+                    <h3>Оформити замовлення</h3>
+                </div>
+            </a>
+        }
+            else { 
+                <div style="width: 100%; text-align: center;"><h3>Кошик пустий</h3>  </div> 
+        }
+    </div>
+</div>
+
+<script>
+    $('.basket__close').click(function () {
+        $('.basket').removeClass('basket__active');
+    })
+</script>

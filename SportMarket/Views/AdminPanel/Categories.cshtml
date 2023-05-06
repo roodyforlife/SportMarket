@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Category>
+<link href="~/css/adminProduct.css" rel="stylesheet" />
+<div class="admin">
+    <div class="admin__content">
+        <div class="admin__content__title" style="display: flex; align-items: center; justify-content: space-between;">
+            <h2>Список категорий</h2>
+            <a asp-controller="AdminPanel" asp-action="AddCategory" class="addCategory"><h4>Додати категорію</h4></a>
+        </div>
+        <div class="admin__content__table">
+            <div class="admin__table__row">
+                <div class="admin__table__cell">
+                    <h4>Id</h4>
+                </div>
+                <div class="admin__table__cell">
+                    <h4>Найменування</h4>
+                </div>
+                <div class="admin__table__cell"></div>
+            </div>
+            @foreach (Category category in Model)
+            {
+        <div class="admin__table__row">
+            <div class="admin__table__cell">
+                <h5>@category.CategoryId</h5>
+            </div>
+            <div class="admin__table__cell">
+                <h5>@category.CategoryName</h5>
+            </div>
+            <div class="admin__table__cell" style="text-align: center; vertical-align: middle;">
+                <a class="admin__table__edit" asp-controller="AdminPanel" asp-action="EditCategory" asp-route-categoryId="@category.CategoryId">
+                    <h4>Edit</h4>
+                </a>
+                <a class="admin__table__delete" onclick="DeleteCategory(@category.CategoryId, event)">
+                    <h4>Delete</h4>
+                </a>
+            </div>
+        </div>
+            }
+        </div>
+    </div>
+</div>

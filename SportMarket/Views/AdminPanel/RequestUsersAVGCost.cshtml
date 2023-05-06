@@ -1,0 +1,39 @@
+﻿@model SportMarket.ViewModels.RequestViewModel
+<link href="~/css/adminUsers.css" rel="stylesheet" />
+<div class="admin">
+    <div class="admin__content">
+        <div class="admin__content__title">
+            <h2>Користувачі та їх середня витрачена ціна</h2>
+        </div>
+        <form method="get">
+            <div class="admin__content__search">
+                <div class="search__block">
+                    <input type="date" name="dateFrom" value='@ViewBag.DateFrom.ToString("yyyy-MM-dd")' placeholder="Дата від">
+                    <input type="date" name="dateTo" value='@ViewBag.DateTo.ToString("yyyy-MM-dd")' placeholder="Дата до">
+                    <button type="submit">Пошук</button>
+                </div>
+            </div>
+        </form>
+        <div class="admin__content__table">
+            <div class="admin__table__row">
+                @foreach (var item in Model.Displays)
+                {
+                    <div class="admin__table__cell">
+                        <h4>@item</h4>
+                    </div>
+                }
+            </div>
+            @foreach (var listItem in Model.Result)
+            {
+                <div class="admin__table__row">
+                    @foreach (var item in listItem)
+                    {
+                        <div class="admin__table__cell">
+                            <h4>@item</h4>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

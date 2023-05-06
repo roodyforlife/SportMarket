@@ -1,0 +1,151 @@
+﻿@model SportMarket.Models.OrderedBasket
+@{
+    Layout = null;
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="~/css/nullStyle.css" rel="stylesheet" />
+<link href="~/css/site.css" rel="stylesheet" />
+<link href="~/css/create.css" rel="stylesheet" />
+<div class="create">
+    <form asp-controller="Home" asp-action="Checkout">
+        <div class="create__content">
+            <div class="create__content__title">
+                <h2>Оформлення замовлення</h2>
+            </div>
+            <div class="create__content__items">
+                <div class="create__content__item">
+                    <div class="create__content__item__title">
+                        <h3>Кошик</h3>
+                    </div>
+                    <div class="createBasket">
+                        <div class="createBasket__items _scroll">
+                            @foreach (Card card in Model.Basket.Cards)
+                            {
+                                <div class="createBasket__item">
+                                    <div class="createBasket__item__block">
+                                        <div class="createBasket__block__image">
+                                            <img src="data:image/jpeg;base64,@(Convert.ToBase64String(card.Product.Image))" alt="">
+                                        </div>
+                                        <div class="createBasket__block__info">
+                                            <a asp-controller="Home" asp-action="Product" asp-route-productId="@card.Product.ProductId">@card.Product.Title</a>
+                                            <div class="createBasket__info__cost">@card.Product.Cost грн.</div>
+                                            <div class="addBasket__content__counter">
+                                                <h5>Кі-сть: @card.Count</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="createBasket__total">
+                            @if (Model.Basket.User.Bonuses > 0 && Model.Basket.Cards.Sum(x => x.Count * x.Product.Cost) > Model.Basket.User.Bonuses)
+                            {
+                                <h5>На вашому акаунті <span class="BonusCount">@Model.Basket.User.Bonuses</span> бонусів, бажаєте використати їх?</h5>
+                                <div class="_checkbox" style="margin-top: 10px;">
+                                    <input class="_checkbox__content" onchange="TotalCost(event)" type="checkbox" id="bonuses"
+                                           name="bonuses" value="true">
+                                    <label for="bonuses">
+                                        <h5>Списати</h5>
+                                    </label>
+                                </div>
+                            }
+                            <h4>до оплати: <span class="totalCost">@Model.Basket.Cards.Sum(x => x.Count * x.Product.Cost)</span><span class="TotalBonusCost"></span> грн</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="create__content__item">
+                    <div class="create__content__item__title">
+                    </div>
+                    <div class="create__input">
+                        <div class="input__display">Вкажіть email</div>
+                        <input type="email" tabindex="1" asp-for="Email">
+                        <span>
+                            <h6><span asp-validation-for="Email"></span></h6>
+                        </span>
+                    </div>
+                    <div class="create__input">
+                        <div class="input__display">Ім'я</div>
+                        <input type="text" tabindex="1" asp-for="Name">
+                        <span>
+                            <h6><span asp-validation-for="Name"></span></h6>
+                        </span>
+                    </div>
+                    <div class="create__input">
+                        <div class="input__display">Прізвище</div>
+                        <input type="text" tabindex="1" asp-for="Surname">
+                        <span>
+                            <h6><span asp-validation-for="Surname"></span></h6>
+                        </span>
+                    </div>
+                    <div class="create__input">
+                        <div class="input__display">По батькові</div>
+                        <input type="text" tabindex="1" asp-for="LastName">
+                        <span>
+                            <h6><span asp-validation-for="LastName"></span></h6>
+                        </span>
+                    </div>
+                    <div class="create__input">
+                        <div class="input__display">Телефон</div>
+                        <input type="tel" tabindex="1" asp-for="Phone">
+                        <span>
+                            <h6><span asp-validation-for="Phone"></span></h6>
+                        </span>
+                    </div>
+                    <div class="create__input">
+                        <h5>Вкажіть область</h5>
+                        <select asp-items="ViewBag.States as SelectList" id="state"></select>
+                    </div>
+                    <div class="create__input">
+                        <h5>Вкажіть місто</h5>
+                        <div class="input__display"></div>
+                        <select disabled id="city"></select>
+                    </div>
+                    <div class="create__input">
+                        <h5>Вкажіть адрес доставки</h5>
+                        <select name="addressId" disabled id="address"></select>
+                        <span>
+                            <h6><span asp-validation-for="AddressId"></span></h6>
+                        </span>
+                    </div>
+                </div>
+                <div class="create__content__item">
+                    <div class="create__item__block">
+                        <div class="create__item__button"><input type="submit" asp-route-BasketId="@Model.BasketId" value="Оформити"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('#state').change(function () {
+            $("#city").prop("disabled", true);
+            $("#city").empty();
+            $("#address").prop("disabled", true);
+            $("#address").empty();
+            var id = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '../Home/GetCities/' + id,
+                success: function (response) {
+                    $('#city').replaceWith(response);
+                    $("#city").prop("disabled", false);
+                }
+            });
+        });
+    })
+
+    function TotalCost(event) {
+        if ($(event.target).is(":checked")) {
+            var bonuses = +$('.BonusCount').html();
+            $('.TotalBonusCost').html(`(-${bonuses}) `)
+        } else {
+            $('.TotalBonusCost').html(``)
+        }
+    }
+</script>
+<script async src="~/js/script.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

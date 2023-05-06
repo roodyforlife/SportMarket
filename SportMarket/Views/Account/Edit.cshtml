@@ -1,0 +1,130 @@
+﻿@model SportMarket.ViewModels.EditViewModel
+@{
+    Layout = "_Layout";
+}
+
+<link href="~/css/redact.css" rel="stylesheet" />
+<script src="~/js/updateProfile.js"></script>
+<div class="update">
+    <div class="update__content">
+        <div class="update__content__title">
+            <h2>Редагування профілю</h2>
+        </div>
+        <form asp-controller="Account" asp-action="Edit" method="post" enctype="multipart/form-data">
+            <div class="update__content__items">
+                <div class="update__content__item">
+                    <div class="update__item__image">
+                        <img src="data:image/jpeg;base64,@(Convert.ToBase64String(ViewBag.User.User.Image))" alt="">
+                        <input type="file" id="uplodadedFile" asp-for="Image">
+                        <label for="uplodadedFile">
+                            <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                                 width="48.000000pt" height="48.000000pt" viewBox="0 0 48.000000 48.000000"
+                                 preserveAspectRatio="xMidYMid meet">
+
+                                <g transform="translate(0.000000,48.000000) scale(0.100000,-0.100000)"
+                                   fill="#000000" stroke="none">
+                                    <path d="M130 411 c-19 -38 -22 -40 -72 -43 l-53 -3 0 -165 0 -165 235 0 235
+                                       0 0 165 0 165 -53 3 c-50 3 -53 5 -72 43 l-20 39 -90 0 -90 0 -20 -39z m200
+                                       -41 c19 -38 23 -40 65 -40 l45 0 0 -130 0 -130 -200 0 -200 0 0 130 0 130 45
+                                       0 c42 0 46 2 65 40 l20 40 70 0 70 0 20 -40z" />
+                                    <path d="M188 314 c-30 -16 -58 -61 -58 -94 0 -53 57 -110 110 -110 34 0 78
+                                       28 95 60 19 37 19 63 0 100 -28 54 -94 74 -147 44z m99 -46 c29 -27 29 -65 1
+                                       -95 -27 -29 -65 -29 -95 -1 -29 27 -29 65 -1 95 27 29 65 29 95 1z" />
+                                </g>
+                            </svg>
+                        </label>
+                    </div>
+                </div>
+                <div class="update__content__item">
+                    <div class="update__input__block">
+                        <input type="text" asp-for="Name" value="@ViewBag.User.User.Name">
+                        <span class="input__display _unselectable">Ім'я</span>
+                        <span>
+                            <h6><span asp-validation-for="Name"></span></h6>
+                        </span>
+                    </div>
+                    <div class="update__input__block">
+                        <input type="text" asp-for="Surname" value="@ViewBag.User.User.Surname">
+                        <span class="input__display _unselectable">Прізвище</span>
+                        <span>
+                            <h6><span asp-validation-for="Surname"></span></h6>
+                        </span>
+                    </div>
+                    <div class="update__input__block">
+                        <input type="text" asp-for="LastName" value="@ViewBag.User.User.LastName">
+                        <span class="input__display _unselectable">По батькові</span>
+                        <span>
+                            <h6><span asp-validation-for="LastName"></span></h6>
+                        </span>
+                    </div>
+                    <div class="update__input__block">
+                        <input type="date" asp-for="Birthday" value="@(ViewBag.User.User.Birthday.ToString("yyyy-MM-dd"))"
+                               max="@DateTime.Now.ToString("yyyy-MM-dd")" min="@DateTime.Now.AddYears(-120).ToString("yyyy-MM-dd")" />
+                        <span class="input__display _unselectable">Дата народження</span>
+                        <span>
+                            <h6><span asp-validation-for="Birthday"></span></h6>
+                        </span>
+                    </div>
+                    <div class="update__input__block">
+                        <div>
+                            <div class="_radio2">
+                                <input @if (ViewBag.User.User.Male) { @: checked
+                                       } class="_radio2__content" type="radio" id="radio__type_1"
+                                       name="Male" value="true">
+                                <label for="radio__type_1">
+                                    <h4>Чоловік</h4>
+                                </label>
+                            </div>
+                            <div class="_radio2">
+                                <input @if (!ViewBag.User.User.Male) { @: checked
+                                       } class="_radio2__content" type="radio" id="radio__type_2"
+                                       name="Male" value="false">
+                                <label for="radio__type_2">
+                                    <h4>Жінка</h4>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    @if (ViewBag.User.User.PasswordHash is not null)
+                    {
+                        <div class="update__input__block">
+                            <input type="password" asp-for="Password">
+                            <span class="input__display _unselectable">Пароль</span>
+                            <span>
+                                <h6><span asp-validation-for="Password"></span></h6>
+                            </span>
+                        </div>
+                        <div class="update__input__block">
+                            <input type="password" asp-for="PasswordConfirm">
+                            <span class="input__display _unselectable">Повторіть пароль</span>
+                            <span>
+                                <h6><span asp-validation-for="PasswordConfirm"></span></h6>
+                            </span>
+                        </div>
+                    }
+                </div>
+                <div class="update__content__item">
+                    @if (!ViewBag.User.User.TwoFactorEnabled)
+                    {
+                        <a asp-controller="Account" asp-action="EnableGoogleAuthenticator" class="twoFactor">
+                            <span>Ввімкнути двух-факторну аутентифікацію</span>
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="DisableGoogleAuthenticator" class="twoFactor twoFactor__active">
+                            <span>Вимкнути двух-факторну аутентифікацію</span>
+                        </a>
+                    }
+                </div>
+            </div>
+            <div class="update__content__submit">
+                <button type="submit">
+                    <h5>Зберегти</h5>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

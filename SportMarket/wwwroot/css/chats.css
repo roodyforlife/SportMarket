@@ -1,0 +1,537 @@
+@import url('var.css');
+
+.chat {}
+
+.chat__content {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+}
+
+.burger__menu {
+    top: 20px;
+    left: 15px;
+    position: absolute;
+    height: 20px;
+    width: 30px;
+    cursor: pointer;
+    z-index: 5;
+}
+
+.burger__menu span {
+    position: absolute;
+    background: white;
+    width: 100%;
+    height: 2px;
+    border-radius: 5px;
+    top: 9px;
+}
+
+.burger__menu::before,
+.burger__menu::after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    background: white;
+    width: 100%;
+    height: 2px;
+    border-radius: 5px;
+    transition: 0.2s ease;
+}
+
+.burger__menu._active__burger::before {
+    transform: rotate(45deg);
+    top: 9px;
+}
+
+.burger__menu._active__burger::after {
+    bottom: 9px;
+    transform: rotate(-45deg);
+}
+
+.burger__menu._active__burger span {
+    transform: scale(0);
+}
+
+.chat__menu._active__burger {
+    transform: translateX(0);
+    box-shadow: 0 0 10px 10000px rgba(0, 0, 0, 0.2);
+    z-index: 3;
+}
+
+.burger__menu::before {
+    top: 0;
+}
+
+.burger__menu::after {
+    bottom: 0;
+}
+
+.chat__item {}
+
+.chat__menu {
+    width: 350px;
+    height: 700px;
+    transform: translateX(-100%);
+    transition: 0.2s ease;
+    z-index: 3;
+}
+
+.chat__item:last-child {
+    width: 100%;
+}
+
+.chat__item__header {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px 10px 60px;
+    background: var(--blue-color);
+}
+
+.chat__item__header__logo {
+    height: 40px;
+    width: 40px;
+    margin-right: 20px;
+}
+
+.chat__item__header__logo svg {
+    height: 100%;
+    width: 100%;
+}
+
+.chat__item__header__logo svg path {
+    fill: white;
+}
+
+.chat__item__header__text {
+    color: white;
+}
+
+.chat__item__header__avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 20px;
+}
+
+.chat__item__header__avatar img {
+    width: 100%;
+    height: 100%;
+}
+
+.chat__item__header__name {
+    color: white;
+}
+
+.chat__item__groups {
+    width: 100%;
+    height: 700px;
+    padding: 20px 0;
+    overflow: auto;
+    background: white;
+}
+
+.groups__content {}
+
+.chat__menu {
+    position: absolute;
+    height: 700px;
+}
+
+.groups__content__item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+
+.groups__content__item:hover {
+    background: var(--gray-color);
+}
+
+.groups__content__item:not(:last-child) {
+    margin-bottom: 20px;
+}
+
+.groups__item__avatar {
+    position: relative;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    margin-right: 10px;
+    overflow: hidden;
+}
+
+.groups__item__avatar img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.groups__item__block {
+    display: flex;
+    margin-right: 5px;
+}
+
+.groups__item__info {}
+
+.groups__info__name {
+    margin-bottom: 5px;
+}
+
+.groups__info__name h5 {
+    font-weight: 600;
+}
+
+.groups__info__lastMessage {
+    max-width: 175px;
+}
+
+.groups__info__lastMessage h5 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.groups__item__date {}
+
+.chat__item__messages {
+    width: 100%;
+    height: 700px;
+    position: relative;
+    border-left: 10px solid white;
+    border-right: 10px solid white;
+    background: url('../img/chat-bg-pattern-dark.ad38368a9e8140d0ac7d..png');
+}
+
+.chat__messages__input {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    height: 50px;
+}
+
+.chat__messages__input input[type="file"] {
+    opacity: 0;
+    z-index: -1;
+    width: 0.1px;
+    height: 0.1px;
+    position: absolute;
+}
+
+.chat__messages__input label[for="messagePhotos"] {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    left: 10px;
+    cursor: pointer;
+}
+
+.chat__messages__input label[for="messagePhotos"] svg {
+    width: 100%;
+    height: 100%;
+}
+
+.chat__messages__input input[type="text"] {
+    width: 100%;
+    height: 100%;
+    padding: 0 50px 0 60px;
+}
+
+.messages__input__submit {
+    position: absolute;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: none;
+}
+
+.messages__input__submit svg {
+    width: 100%;
+    height: 100%;
+}
+
+.messages__input__submit:hover svg,
+.chat__messages__input label[for="messagePhotos"]:hover svg {
+    opacity: 0.7;
+}
+
+.chat__messages__uploaded {
+    position: absolute;
+    bottom: 60px;
+    left: 0;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.messages__uploaded__photos {
+    width: 100%;
+    background: white;
+    border-radius: 5px;
+    padding: 10px;
+    display: none;
+    align-items: center;
+}
+
+.messages__uploaded__photo {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.messages__uploaded__photo:hover .uploaded__photo__cross {
+    opacity: 1;
+}
+
+.messages__uploaded__photo img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.uploaded__photo__cross {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat__messages__container {
+    width: 100%;
+    height: calc(100% - 60px);
+    overflow: auto;
+}
+
+.messages__container__tweet {
+    width: 100%;
+}
+
+.tweet__my,
+.tweet__other {
+    display: flex;
+    margin: 10px 0;
+    position: relative;
+}
+
+.tweet__my::after,
+.tweet__other::before {
+    position: absolute;
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 5px 5px 5px;
+    bottom: 0;
+}
+
+.tweet__my::after {
+    right: 15px;
+    border-color: transparent transparent var(--blue-hover-color) transparent;
+}
+
+.tweet__other::before {
+    left: 15px;
+    border-color: transparent transparent var(--green-color) transparent;
+}
+
+.tweet__my {
+    justify-content: end;
+}
+
+.tweet__other {
+    justify-content: start;
+}
+
+.tweet__photo {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -10px;
+}
+
+.tweet__photo__item {
+    flex: 1 1 47%;
+    width: 200px;
+    min-height: 200px;
+    padding-top: 25%;
+    position: relative;
+    margin: 0 10px 10px 0;
+    box-shadow: inset 0 0 1px 100px rgba(0, 0, 0, 0.04);
+    cursor: zoom-in;
+}
+
+.tweet__photo__item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tweet__my .tweet__message .tweet__message__date,
+.tweet__other .tweet__message .tweet__message__date {
+    margin: 5px 0 15px 0;
+    color: white;
+    opacity: 0.7;
+}
+
+.tweet__my .tweet__message .tweet__message__date {
+    text-align: left;
+}
+
+.tweet__other .tweet__message .tweet__message__date {
+    text-align: right;
+}
+
+.tweet__my .tweet__message,
+.tweet__other .tweet__message {
+    padding: 15px 15px 0 15px;
+    border-radius: 5px;
+    color: white;
+    max-width: 60%;
+}
+
+.tweet__my .tweet__message {
+    background: var(--blue-hover-color);
+    margin: 0 20px 0 0;
+}
+
+.tweet__other .tweet__message {
+    margin: 0 0 0 20px;
+    background: var(--green-color);
+}
+
+.view__photo {
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1100;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    cursor: zoom-out;
+}
+
+._lock_scroll {
+    overflow: hidden;
+}
+
+._active__view__photo {
+    display: flex;
+}
+
+.view__photo__content {
+    height: 100%;
+    width: 100%;
+    transition: 0.2s ease;
+}
+
+.view__photo__content img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+@media(max-width: 1280px) {
+    .chat__menu {
+        height: 550px;
+    }
+
+    .chat__item__groups {
+        height: 550px;
+    }
+
+    .chat__item__messages {
+        height: 550px;
+    }
+}
+
+@media(max-width: 1024px) {
+    .chat__menu {
+        height: 400px;
+    }
+
+    .chat__item__groups {
+        height: 400px;
+    }
+
+    .chat__item__messages {
+        height: 400px;
+    }
+}
+
+@media(max-width: 700px) {
+    .messages__uploaded__photo {
+        width: 50px;
+        height: 50px;
+        margin-right: 5px;
+    }
+
+    .messages__uploaded__photos {
+        width: 100%;
+        background: white;
+        border-radius: 5px;
+        padding: 10px;
+        display: none;
+        align-items: center;
+    }
+
+    .chat__messages__uploaded {
+        padding: 0 10px;
+    }
+
+    .tweet__photo__item {
+        width: 100px;
+        min-height: 100px;
+    }
+}
+
+@media(max-width: 400px) {
+    .chat__menu {
+        width: 90%;
+    }
+
+    .groups__item__avatar {
+        height: 30px;
+        width: 30px;
+    }
+
+    .groups__content__item {
+        padding: 5px;
+    }
+
+    .groups__item__info {
+        max-width: 100px;
+    }
+}

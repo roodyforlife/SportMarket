@@ -1,0 +1,140 @@
+﻿@model SportMarket.ViewModels.AdminProductViewModel
+<link href="~/css/adminProduct.css" rel="stylesheet" />
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+<script src="~/js/print.js"></script>
+<div class="admin">
+    <div class="admin__content">
+        <div class="admin__content__title">
+            <h2>Список товарів</h2>
+        </div>
+        <form method="get">
+            <div class="admin__content__search">
+                <div class="search__block">
+                    <input type="text" name="title" value="@Model.FilterViewModel.SelectedTitle" placeholder="Пошук по назві...">
+                    <input type="number" name="quantityFrom" value="@Model.FilterViewModel.CostFrom" placeholder="Кі-сть від">
+                    <input type="number" name="quantityTo" value="@Model.FilterViewModel.CostTo" placeholder="Кі-сть до">
+                    <h4>Категорія: </h4>
+                    <select name="selectCategories" multiple class="select__checkbox" asp-items="Model.FilterViewModel.Categories"></select>
+                    <button type="submit">Фільтр</button>
+                </div>
+                <div class="search__block">
+                    <a asp-controller="AdminPanel" asp-action="RequestComments" class="request">Каментарі</a>
+                    <a style="margin-left: 20px;" asp-controller="AdminPanel" asp-action="RequestCategories" class="request">Категорії та їх замовлення</a>
+                    <a style="margin-left: 20px;" asp-controller="AdminPanel" asp-action="SetSale" class="request">Зробити знижку на товари</a>
+                    <div style="margin-left: 20px;" class="request" onclick="PrintAsImage('.admin__content__table', 'products')">Роздрукувати звіт</div>
+                </div>
+            </div>
+        </form>
+        <div class="admin__content__table">
+            <div class="admin__table__row">
+                <div class="admin__table__cell">
+                    <h4>Id</h4>
+                </div>
+                <div class="admin__table__cell">
+                    <h4>Фото</h4>
+                </div>
+                <a asp-action="Products"
+                   asp-route-sortOrder="@(Model.SortViewModel.TitleSort)"
+                   asp-route-title="@(Model.FilterViewModel.SelectedTitle)"
+                   asp-route-selecteCategories="@(Model.FilterViewModel.SelectedCategories)" class="admin__table__cell">
+                    <h4>Назва</h4>
+                </a>
+                <a asp-action="Products"
+                   asp-route-sortOrder="@(Model.SortViewModel.DescriptionSort)"
+                   asp-route-title="@(Model.FilterViewModel.SelectedTitle)"
+                   asp-route-selecteCategories="@(Model.FilterViewModel.SelectedCategories)" class="admin__table__cell">
+                    <h4>Опис</h4>
+                </a>
+                <a asp-action="Products"
+                   asp-route-sortOrder="@(Model.SortViewModel.SaleProcentSort)"
+                   asp-route-title="@(Model.FilterViewModel.SelectedTitle)"
+                   asp-route-selecteCategories="@(Model.FilterViewModel.SelectedCategories)" class="admin__table__cell">
+                    <h4>Знижка</h4>
+                </a>
+                <a asp-action="Products"
+                   asp-route-sortOrder="@(Model.SortViewModel.CostSort)"
+                   asp-route-title="@(Model.FilterViewModel.SelectedTitle)"
+                   asp-route-selecteCategories="@(Model.FilterViewModel.SelectedCategories)" class="admin__table__cell">
+                    <h4>Ціна</h4>
+                </a>
+                <div class="admin__table__cell">
+                    <h4>Категорії</h4>
+                </div>
+                <a asp-action="Products"
+                   asp-route-sortOrder="@(Model.SortViewModel.BonusSort)"
+                   asp-route-title="@(Model.FilterViewModel.SelectedTitle)"
+                   asp-route-selecteCategories="@(Model.FilterViewModel.SelectedCategories)" class="admin__table__cell">
+                    <h4>Бонуси</h4>
+                </a>
+                <a asp-action="Products"
+                   asp-route-sortOrder="@(Model.SortViewModel.DateSort)"
+                   asp-route-title="@(Model.FilterViewModel.SelectedTitle)"
+                   asp-route-selecteCategories="@(Model.FilterViewModel.SelectedCategories)" class="admin__table__cell">
+                    <h4>Дата створення</h4>
+                </a>
+                <a asp-action="Products"
+                   asp-route-sortOrder="@(Model.SortViewModel.QuantitySort)"
+                   asp-route-title="@(Model.FilterViewModel.SelectedTitle)"
+                   asp-route-selecteCategories="@(Model.FilterViewModel.SelectedCategories)" class="admin__table__cell">
+                    <h4>Кі-сть</h4>
+                </a>
+                <div class="admin__table__cell">
+                    <h4></h4>
+                </div>
+            </div>
+            @foreach (Product product in Model.Products)
+            {
+
+                <div class="admin__table__row">
+                    <div class="admin__table__cell">
+                        <h5>@product.ProductId</h5>
+                    </div>
+                    <div class="admin__table__cell">
+                        <img src="data:image/jpeg;base64,@(Convert.ToBase64String(product.Image))" alt="">
+                    </div>
+                    <div class="admin__table__cell">
+                        <h5>
+                            <a asp-controller="Home" asp-action="Product" asp-route-productId="@product.ProductId" style="color: black;">
+                                @product.Title
+                            </a>
+                        </h5>
+                    </div>
+                    <div class="admin__table__cell">
+                        <h5>
+                            @product.Description
+                        </h5>
+                    </div>
+                    <div class="admin__table__cell">
+                        <h5>@product.SaleProcent</h5>
+                    </div>
+                    <div class="admin__table__cell">
+                        <h5>@product.Cost</h5>
+                    </div>
+                    <div class="admin__table__cell">
+                        @foreach (ProductCategory category in product.ProductCategories)
+                        {
+                            <h5>@category.Category.CategoryName</h5>
+                        }
+                    </div>
+                    <div class="admin__table__cell">
+                        <h5>@product.BonusNumber</h5>
+                    </div>
+                    <div class="admin__table__cell">
+                        <h5>@product.Date.ToString("dd.MM.yyyy HH:mm")</h5>
+                    </div>
+                    <div class="admin__table__cell">
+                        <h5>@product.Quantity</h5>
+                    </div>
+                    <div class="admin__table__cell" style="text-align: center; vertical-align: middle;">
+                        <a class="admin__table__edit" asp-controller="AdminPanel" asp-action="EditProduct" asp-route-productId="@product.ProductId">
+                            <h4>Edit</h4>
+                        </a>
+                        <a class="admin__table__delete" onclick="DeleteProduct(@product.ProductId, event)">
+                            <h4>Delete</h4>
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

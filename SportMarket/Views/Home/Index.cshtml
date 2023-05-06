@@ -1,0 +1,297 @@
+﻿@using SportMarket.Enums
+@model SportMarket.ViewModels.IndexProductViewModel
+@{ 
+    Layout = "_Layout";
+}
+
+<link rel="stylesheet" href="~/css/index.css">
+<div class="content__search">
+    <form method="get">
+        <div class="content__search__inputs">
+            <div class="content__search__input"><input type="text" value="@Model.FilterViewModel.SelectedTitle" name="title" class="TitleValue"></div>
+            <button type="submit" class="content__search__button" id="SearchButton">
+                <div class="search__button__text _unselectable">
+                    <h4>Пошук</h4>
+                </div>
+                <div class="search__button__image">
+                    <svg version="1.1" id="Layer_1"
+                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                         y="0px" width="50px" height="50px" viewBox="0 0 50 50" enable-background="new 0 0 50 50"
+                         xml:space="preserve">
+                    <image id="image0" width="50" height="50" x="0" y="0" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABGdBTUEAALGPC/xhBQAAACBjSFJN
+                        AAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAM
+                        iklEQVRo3u1afXBUVZb/vY/+fN2d7k6nA4FAE2USTGZmCbPAlLijiKCbAMGaiiDsWoOMtZZbjiDl
+                        Wrr4tVZZUyo4MoWlGaZqtITFqQQNsMVAXLOAi3FZRFAJmXyRj+4k3Z10Ou91v3793rvzR/t6Xicv
+                        phksmT/mVJ0/3s1979zf/Z1z7rmnA/xN/rqEMhrkeT7zRyrz50QiAZ7nMT4+DqfTibKyMgBAe3v7
+                        /La2tjvOnz//D+3t7VX9/f1z4hNxC03RpLCwMBEIBHoqKyv/v3px9ekVt61o8fv9vCRJ6OjoAMMw
+                        KCgogMlkytrJV4qKiv5yILFYDBaLBaWlpbh48eKP33zzzV80NjbWDw8P57WKysrKyP333//2gw8+
+                        +Kvi4uK+7u5umEwmWK3WbwWIofA8D57nIQgCeJ7H8PAwCCEIBoPuHTt2/I6maQIgRymKymts1qxZ
+                        0mu/eu1pRVGQTqcRCoUQDoevSfMWDQjP80gkEiCE4Ny5c7eXl5eH9Is0Wuh0Onlu3fq6U/F4vIgQ
+                        gqGhoesGYsipIAgghICmadhsNrS2tm5YvXp1UzqdzrocISQ7/+abb55YsmTJhXnz5l30eDxhWZbp
+                        aDRa1tHRUfnpp58ujkajfzaoe7eysjJ06tSpZV6vt39kZAQMw+S10T6fLz9GYrEYotEoCCFoa2u7
+                        a7pdrq2tPdvc3Lw5Ho+7CSHgeR6EEKRSKaiqCkIIrl69uqChoeHfqqqqgkbslJeXDwuC4FJVFYOD
+                        gxgaGppR85aBgQEoioKRkRF/QUHBFOMul0s+ePDgNkIICCGIx+OIRCI4f/48Ojo6cOnSJVy+fBnR
+                        aDQLLh6Pcy+88MIrRq551113/R8hBKOjowgGgwiFQt+oRkIbDabTadA0jQceeKB5fHw8J6tUVFSE
+                        P/vssx9u3LjxN319fejq6oIgCFBVdcp3FEXB6Ogouru7IQiCsGvXrp3NHzT/02TXPHny5I9ef/31
+                        f/d4PFBVdUbNO0YIIXj//fd/umHDht/r/bqoqCh55cqVco/H03/u3Dl4vV5QFAWbzQaGYTAwMACH
+                        w4FUKgWWZVFYWAhRFKGqKkRRBCEEFRUVOH78+H333HPPf+q/bbPZ0NPTM8fr9QYnb14+MUJPN/ml
+                        l17arTcEAO+99946j8fT39nZCYfDAUVR8nZXVVXBsiyCwSDuvvvuQ88+++webdMoikIymcTu3buf
+                        N5lMkGX5GzVvRlpaWlavWrXqD/qxbdu2fdDQ0FAXCoVA0RRAgGQyCVVVwXHcNzIiy3KGOasNiqrA
+                        5XLB4XDglltuGb58+bJf26xZxbNSly5dKiQggiAI027KggUL8mPk6NGj92lsAIDJZMKTTz75uOaf
+                        FCjQNA273Q6GYXL8fTomOI4DRVFgaAbxeBwA8NRTTz2rsQIAQ8NDlpYPW+q8hV5o9o3USAyBnD17
+                        dpX+uaam5pObbrqpKzwSBiEEiqJAlmWoqgqL2TLlXNGD0MoQQghAARRNgWEYJJNJrF279p2ioiJJ
+                        /87p06fvAckkHEmSDDVvIO3t7fP0O3XnnXd+AAAEBAzDZJWmaTAsA5ZlQUCyMaO9Z7fbwXEczGYz
+                        LBZLVq1WK9LpNAoKCoTVq1ef1dv+8ssvv59IJEBRFFRFNVQjYY0Gx8fHc54XLlz4laIoYFnD6aAo
+                        CizDwmKxQFGU7EJjsdi06ZIQApfLhYULF7YB+Ik2PjQ0NJef4K0cx4nJRBL5CjvTBIqi4Ha740CG
+                        buNVZVzGX+SHlJYwPDwMnudnLPC+ZjXnqI7H45ae3h6Os3OikBCQr+QFhGXZGesgLV4YloEsy5iY
+                        mIDZZJ4mL2aE5/kpKVxVVQiCQAGZmu9bA/L1h5mZXIsQAjGVOfwCgQAKCwuRTCanP9gIMH/+fLAs
+                        y+mHbTabWjqvNGW1WK8fCMuyOQdPKBSapwW4EQiKoqAoSiZAvy4jPB4PPB5PJhFMk57tdjvC4XCl
+                        fqyoqChS7C/m4/E4LBZL3kAMs1ZZWZmgLRIAPv7441VA5gAURXGKTkxMIJlMZk9pDYyWpgkhU+ol
+                        s9kMVVXR2tp6xyTbV5xOJ0mn09dUaxkCqa6u/lj/3NTUtIHneZPT6YRW8WpAJUmCLMuGbKmKikQi
+                        AUEQIEkSkskkkskkBEEAx3E4e/bsrRcvXizWv7N8+fIzWkyaTCZDzRvIypUr3wf+fB4MDg7a3n33
+                        3V+4XK7shYthGKRSKaRSKdC0ccmmMSqKIhRFgclkAsMwWZfZu3fvC/p5LMtizZo1hxKJxLQgpgNi
+                        GInhcNhTXl4eHR0dpbRALikpETo6OvwsyyYikUgWhNlsBsuyWVdRFAU0TWeeFRVpJQ0xmQHicDgA
+                        AHPnzsWZM2dW3XbbbSc1IIQQ1NbWth05cmT5YHAQRJ2+7CktLc2PEZ/PN/bYY4+9prFCURSCwSC3
+                        ZcuWYxaLBV6vN9tpQR4NEC1uJiYmMHfuXMTH4+7NmzfnXBEAYOfOnc8BgNVshd1un1bzZmRkZAQs
+                        y9orKipiIyMjJr2x7du3v7179+4HYrEYBgYGYLPbwDIzM5JKpVBVVQVFUdy33nrrJ21tbeV6IHV1
+                        dacOHz78k1AoNOP1IG9G0uk0PB5P4p133tmkZwUA9uzZ889btmw5Jsuyr6qqChzHZe/nk0VLDD6f
+                        D1VVVfjiiy+WV1dXf66B0Oa4XC688cYbG7WiUHtvOs1bIpEIRkdHQQjBM888sxcGTYNAIBDdv3//
+                        9rGxMadmQFGUnFSsaU9PT9lzzz23h2XZKe0hv98f++ijj2oIIXn3uPJ2ratXr0JVVTgcDvh8Pjzy
+                        yCMH9+3bt3GyTwNARUVFZP369c1L/37p6dkls3udTmecEELHx+Punt6eRWfOnFnZ2Ni4PhKJZG1p
+                        7BJCsG3btv9qaGioicfjSKfTeXUdCwsL82Okt7cXvb296OrqQiQSASEEzz///K8xQxcRAHE6nYTj
+                        uLwbdk6nUzx58mSd1qgbGR6ZUa+JEU1kWYbX64Xb7cah9w5tffqpp1/t6upy63f3mvxWb/zrdx0O
+                        B9qvtJfNKZnTEwwGZyxQZ82aNWWMxgzCMAwEQcBA/wDqf1r/29bW1u/t2rVrX2lpqQTgmkAsWbKk
+                        v7Gx8dH6+vrjejA8z6Nufd2HAOAv8oNhGJjN5mn1L2KEEAKz2Qw5LSMWi8Fb6MWcOXMQCoXmNDc3
+                        bzx+/Pj6zz///Id9fX2uyWnTbrcjEAgML1++/H/XrFnTVFtbe8hut6cTiYRj0aJFg319fS49o1u3
+                        bj28f//+e8dj40ilUpkmh4H4/f7rA8LzPFSS6Zp4vV64XC4kEgkMDAwU9PX1LYzFYsWJRGIuAJnj
+                        uKt+v38oMD/wx9J5pSlZlhGNRiFJEkpLS3HhwoVlixcv/kTvYgCwb9++Jx9++OFf9vf3ZyvqyRII
+                        BK4fCEHGp2mazqmhrFYrHA5HtqRXFAWiKGb7wFojwuVygaZpeDweHDhw4F83b968dzKYtra225cu
+                        Xfo/4XDYsI4zatBdF5BUKgVJkqAoSrbto5XsmmhVLACYzWYwDJMFX1JSgoceeuhgQ0NDTmqfPXt2
+                        qru7u8RqtY5OTExMCX6O46asecZg/7ZFA5pMJjE6Ooq33npr07Jly/6Y3VmKQigUsqxdu/ZDIHND
+                        jUajGBsby6qRfKdANHY5joPD4UAymemSHD16dKXb7Vb1GbClpeXvdu7c+VZBQQHMZjMoKtMUnO7K
+                        8J0B0eo1/b3CZrMhHA7D5/MNHDlyZJ1+HgC8+uqrPz98+PDW4uLinN7YDQWiB6S/tlIUhUgkghUr
+                        Vhx75ZVX/mMymPr6+v0dHR0/8Pl84HkeoijeeCA0TWdboel0OquSJGFsbAyPP/74M5s2bTqhzaco
+                        CrIso6am5r8VWTH7/X7IaeNu/HfqWlp82Ky2HLXb7JlMR4ADBw7846JFi8L6vkBnZ2dh/X31f7Ba
+                        rXB73DcWiLa7KTGFlDRVZVnWflZTjh07dofZbM4pf5qamm5/+eWXX3S5XDcWCACkUqnsT95GKooi
+                        uru7sWDBgi8PvHvgZ0BuLffEE088feLEidVG3zYsM7dv3547iWGgqmq2pa+lQ+0E1y5QWmrUG9dS
+                        JkVR8Hg84DgOVqsVNpvNUK1WKyRJwuLqxRdkWZ59+vTpH+nXIooi89VXXzXdEEYIIdmKlmbonJ8m
+                        JqvWlpUkCS+++OK/1NTUfKr/1rp1604Y2fhOShSt4WaxWHJS6zeJqqrw+/0QRdG+Y8eO33V2dt5y
+                        7733vv3oo4/+Mt9/LPib3Ej5E2evZXKYykuoAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIyLTA1LTI5
+                        VDEyOjE4OjI0KzAwOjAwjGFUtgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMi0wNS0yOVQxMjoxODoy
+                        NCswMDowMP087AoAAAAASUVORK5CYII=" />
+                            </svg>
+                </div>
+            </button>
+        </div>
+        <div class="content__search__inputs">
+            <div class="content__search__category">
+                <h4>Категорія</h4>
+                <div class="search__category__menu _scroll">
+                    <select name="selectCategories" class="select__checkbox" id="custom_select" multiple asp-items="Model.FilterViewModel.Categories"></select>
+                </div>
+            </div>
+            <div class="content__search__sort">
+                <input class="SortInput" type="text">
+                <h4 class="SortValue">Сортування</h4>
+                <div class="search__sort__menu">
+                    <select name="sortOrder" class="select__radio" id="custom_select" asp-items="Html.GetEnumSelectList<IndexSortState>()"></select>
+                </div>
+            </div>
+        </div>
+        <div class="content__search__inputs">
+            <div class="content__search__cost"><input class="CostFrom" value="@Model.FilterViewModel.CostFrom" name="costFrom" type="number" placeholder="Ціна від"></div>
+            <div class="content__search__cost"><input class="CostTo" value="@Model.FilterViewModel.CostTo" name="costTo" type="number" placeholder="Ціна до"></div>
+        </div>
+    </form>
+</div>
+<div class="product">
+    <div class="product__content">
+        <div class="product__content__items">
+            @if (Model.Products.Count > 0)
+            {
+                @foreach (Product product in Model.Products)
+                {
+                    <div class="product__content__item">
+                        @if (product.Quantity > 0)
+                        {
+
+                            <div class="product__addBasket" onclick="OpenBasketAdding(@product.ProductId)">
+                                <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="252.000000pt"
+                                     height="204.000000pt" viewBox="0 0 252.000000 204.000000"
+                                     preserveAspectRatio="xMidYMid meet">
+
+                                    <g transform="translate(0.000000,204.000000) scale(0.100000,-0.100000)"
+                                       fill="#000000" stroke="none">
+                                        <path d="M32 2007 c-33 -35 -30 -96 6 -130 28 -27 30 -27 164 -27 l136 0 27
+-77 c15 -43 36 -96 45 -118 10 -22 28 -69 40 -105 12 -35 24 -69 28 -75 3 -5
+16 -37 28 -70 12 -33 33 -93 47 -134 15 -40 31 -79 35 -85 5 -6 17 -38 27 -71
+10 -33 21 -64 25 -70 4 -5 17 -37 28 -70 27 -78 70 -195 81 -220 29 -65 81
+-209 81 -222 0 -9 -20 -33 -44 -54 -115 -101 -125 -275 -23 -386 58 -63 104
+-83 198 -83 127 0 186 36 240 148 28 56 31 71 27 133 l-4 69 273 0 273 0 0
+-88 c0 -80 3 -92 29 -133 64 -99 120 -129 244 -129 74 0 88 3 129 29 84 53
+127 131 128 232 0 103 -39 177 -124 232 l-51 32 -549 5 c-475 4 -550 7 -556
+20 -4 8 -17 39 -28 67 l-20 53 614 2 614 3 25 25 c15 15 34 57 49 105 13 44
+40 134 61 200 21 66 45 147 54 180 9 33 20 65 24 71 3 7 14 43 23 80 8 38 19
+73 24 79 11 14 50 160 50 190 0 13 -11 37 -24 52 l-24 28 -938 5 -938 5 -19
+50 c-10 28 -24 64 -32 82 -8 17 -15 36 -15 42 0 21 -51 126 -67 139 -12 8 -71
+12 -208 12 -187 0 -192 -1 -213 -23z m1153 -514 c3 -10 9 -75 12 -146 l6 -127
+-219 2 -219 3 -26 70 c-14 39 -28 77 -32 85 -3 8 -15 41 -26 73 l-19 57 258 0
+c236 0 258 -1 265 -17z m532 -30 c-4 -27 -9 -92 -13 -146 l-7 -97 -201 2 -201
+3 -10 143 -10 142 224 0 224 0 -6 -47z m558 -25 c-13 -40 -33 -106 -46 -145
+l-23 -73 -209 0 -209 0 6 88 c4 48 9 113 12 145 l6 57 243 0 244 0 -24 -72z
+m-1061 -350 c3 -24 8 -82 11 -131 l6 -87 -167 2 -168 3 -7 25 c-4 14 -25 71
+-47 128 l-39 102 203 0 203 0 5 -42z m472 -50 c-4 -51 -9 -110 -13 -130 l-6
+-38 -172 0 -172 0 -12 113 c-6 62 -11 121 -11 130 0 15 19 17 196 17 l197 0
+-7 -92z m491 80 c-2 -7 -21 -66 -41 -130 l-37 -118 -167 0 -168 0 3 68 c2 37
+6 95 9 130 l6 62 200 0 c156 0 199 -3 195 -12z m-1152 -787 c24 -26 27 -35 22
+-68 -10 -63 -75 -100 -122 -69 -14 9 -32 28 -41 42 -15 22 -15 30 -4 65 15 44
+35 57 86 58 21 1 39 -8 59 -28z m1050 23 c20 -8 45 -56 45 -88 0 -40 -41 -80
+-83 -80 -52 0 -87 35 -87 88 0 67 59 105 125 80z" />
+                                    </g>
+                                </svg>
+                            </div>
+                        }
+                        <a asp-controller="Home" asp-action="Product" asp-route-productId="@product.ProductId">
+                            <div class="product__item__image"><img src="data:image/jpeg;base64,@(Convert.ToBase64String(product.Image))" alt="Alternate Text" /></div>
+                        </a>
+                        <div class="product__item__title">
+                            <h5>@product.Title</h5>
+                        </div>
+                        <div class="product__item__info _unselectable">
+                            <div class="rating2">
+                                @{ string rating = "0%";
+                                    if (product.Comments.Count > 0)
+                                    {
+                                        rating = ((100 * product.Comments.Sum(x => x.Score)) / (product.Comments.Count * 5)).ToString() + '%';
+                                    }
+                                }
+                                <div class="rating2__body">
+                                    <div class="rating2__active" style="width: @rating"></div>
+                                </div>
+                                <div class="rating2__value">@rating (@product.Comments.Count)</div>
+                            </div>
+                        </div>
+                        @if (product.SaleProcent > 0)
+                        {
+                            var sale = Math.Round((double)((product.Cost * 100) / (100 - product.SaleProcent)));
+                            <div class="product__item__cost">
+                                <div>
+                                    <span>@sale.ToString("N0") грн.</span>
+                                    <div class="product__sale">
+                                        <h6>-@product.SaleProcent%</h6>
+                                    </div>
+                                </div>
+                                <h4 style=" color: var(--red-color)">@product.Cost.ToString("N0") грн.</h4>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="product__item__cost">
+                                <h4>@product.Cost.ToString("N0") грн.</h4>
+                            </div>
+                        }
+                        <div class="product__item__like" id="product__like" onclick="AddToLiked(@product.ProductId, event)">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em"
+                                 class="css-1d65b5y">
+                                <path fill="currentColor" class="hover__like"
+                                      @if (ViewBag.User.User is not null) { if (((IEnumerable<Like>)ViewBag.User.User.Likes).Any(x => x.Product.ProductId == product.ProductId)) { @: style="fill: var(--red-color)"
+                                      } }
+                                      fill-rule="evenodd"
+                                      d="M17 2a6 6 0 0 0-5 2.686A6 6 0 0 0 7 2C3.692 2 1 4.691 1 8a5.97 5.97 0 0 0 1.233 3.633L10.709 22h2.583l8.5-10.399A5.942 5.942 0 0 0 23 8c0-3.309-2.691-6-6-6">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div style="width: 100%; text-align: center;"><h1>За вашим запитом товарів не знайдено</h1></div>
+            }
+        </div>
+        @if (Model.PageViewModel.TotalPages != 1)
+        {
+            <div class="pagination">
+                <div class="pagination__content">
+                    @if (Model.PageViewModel.HasPreviousPage)
+                    {
+                        <a asp-action="Index"
+                           asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+                           asp-route-selectCategories="@Model.FilterViewModel.SelectedCategories"
+                           asp-route-title="@Model.FilterViewModel.SelectedTitle"
+                           asp-route-costFrom="@Model.FilterViewModel.CostFrom"
+                           asp-route-costTo="@Model.FilterViewModel.CostTo"
+                           asp-route-sortOrder="@Model.FilterViewModel.SortState"
+                           class="pagination__previous"></a>
+                    }
+                    <div class="pagination__items">
+                        @if (Model.PageViewModel.PageNumber - 3 > 1)
+                        {
+                            <a asp-action="Index"
+                               asp-route-page="1"
+                               asp-route-selectCategories="@Model.FilterViewModel.SelectedCategories"
+                               asp-route-title="@Model.FilterViewModel.SelectedTitle"
+                               asp-route-costFrom="@Model.FilterViewModel.CostFrom"
+                               asp-route-costTo="@Model.FilterViewModel.CostTo"
+                               asp-route-sortOrder="@Model.FilterViewModel.SortState"
+                               class="pagination__items__item"><span>1</span></a>
+                            <div class="pagination__items__item"><span>...</span></div>
+                        }
+                        @for (int i = Model.PageViewModel.PageNumber - 3; i <= Model.PageViewModel.PageNumber + 3; i++)
+                        {
+                            @if (i >= 1 && i <= Model.PageViewModel.TotalPages)
+                            {
+                                @if (Model.PageViewModel.PageNumber == i)
+                                {
+                                    <a asp-action="Index"
+                                       asp-route-page="@i"
+                                       asp-route-selectCategories="@Model.FilterViewModel.SelectedCategories"
+                                       asp-route-title="@Model.FilterViewModel.SelectedTitle"
+                                       asp-route-costFrom="@Model.FilterViewModel.CostFrom"
+                                       asp-route-costTo="@Model.FilterViewModel.CostTo"
+                                       asp-route-sortOrder="@Model.FilterViewModel.SortState"
+                                       class="pagination__items__item pagination__active"><span>@i</span></a>
+                                }
+                                else
+                                {
+                                    <a asp-action="Index"
+                                       asp-route-page="@i"
+                                       asp-route-selectCategories="@Model.FilterViewModel.SelectedCategories"
+                                       asp-route-title="@Model.FilterViewModel.SelectedTitle"
+                                       asp-route-costFrom="@Model.FilterViewModel.CostFrom"
+                                       asp-route-costTo="@Model.FilterViewModel.CostTo"
+                                       asp-route-sortOrder="@Model.FilterViewModel.SortState"
+                                       class="pagination__items__item"><span>@i</span></a>
+                                }
+                            }
+                        }
+                        @if (Model.PageViewModel.PageNumber + 3 <= Model.PageViewModel.TotalPages - 1)
+                        {
+                            <div class="pagination__items__item"><span>...</span></div>
+                            <a asp-action="Index"
+                               asp-route-page="@Model.PageViewModel.TotalPages"
+                               asp-route-selectCategories="@Model.FilterViewModel.SelectedCategories"
+                               asp-route-title="@Model.FilterViewModel.SelectedTitle"
+                               asp-route-costFrom="@Model.FilterViewModel.CostFrom"
+                               asp-route-costTo="@Model.FilterViewModel.CostTo"
+                               asp-route-sortOrder="@Model.FilterViewModel.SortState"
+                               class="pagination__items__item"><span>@Model.PageViewModel.TotalPages</span></a>
+                        }
+                    </div>
+                    @if (Model.PageViewModel.HasNextPage)
+                    {
+                        <a asp-action="Index"
+                           asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+                           asp-route-selectCategories="@Model.FilterViewModel.SelectedCategories"
+                           asp-route-title="@Model.FilterViewModel.SelectedTitle"
+                           asp-route-costFrom="@Model.FilterViewModel.CostFrom"
+                           asp-route-costTo="@Model.FilterViewModel.CostTo"
+                           asp-route-sortOrder="@Model.FilterViewModel.SortState"
+                           class="pagination__next"></a>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script src="~/js/category.js"></script>

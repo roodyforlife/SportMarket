@@ -1,0 +1,135 @@
+﻿@using SportMarket.ViewModels
+@model SportMarket.ViewModels.UsersViewModel
+<link href="~/css/adminUsers.css" rel="stylesheet" />
+<div class="admin">
+    <div class="admin__content">
+        <div class="admin__content__title">
+            <h2>Список користувачів</h2>
+        </div>
+        <form method="get">
+            <div class="admin__content__search">
+                <div class="search__block">
+                    <input type="text" name="title" value="@Model.UsersFilterViewModel.SelectedTitle" placeholder="Пошук по імені та прізвищу...">
+                    <input type="text" name="email" value="@Model.UsersFilterViewModel.SelectedEmail" placeholder="Email">
+                    <h4>Ролі: </h4>
+                    <select name="selectRoles" multiple class="select__checkbox" style="min-width: 200px;" asp-items="Model.UsersFilterViewModel.Roles"></select>
+                    <button type="submit">Фільтр</button>
+                </div>
+                <div class="search__block">
+                    <a asp-controller="AdminPanel" asp-action="RequestUsers" class="request">Топ 10 покупців</a>
+                    <a style="margin-left: 20px;" asp-controller="AdminPanel" asp-action="RequestUsersAVGCost" class="request">Користувачі та їх середня витрачена ціна</a>
+                </div>
+            </div>
+        </form>
+        <div class="admin__content__table">
+            <div class="admin__table__row">
+                <div class="admin__table__cell">
+                    <h4>Фото</h4>
+                </div>
+                <a asp-action="Users"
+                   asp-route-sortOrder="@(Model.SortUserViewModel.NameSort)"
+                   asp-route-title="@(Model.UsersFilterViewModel.SelectedTitle)"
+                   asp-route-email="@(Model.UsersFilterViewModel.SelectedEmail)" class="admin__table__cell">
+                    <h4>Ім'я</h4>
+                </a>
+                <a asp-action="Users"
+                   asp-route-sortOrder="@(Model.SortUserViewModel.SurnameSort)"
+                   asp-route-title="@(Model.UsersFilterViewModel.SelectedTitle)"
+                   asp-route-email="@(Model.UsersFilterViewModel.SelectedEmail)" class="admin__table__cell">
+                    <h4>Прізвище</h4>
+                </a>
+                <a asp-action="Users"
+                   asp-route-sortOrder="@(Model.SortUserViewModel.BirthdaySort)"
+                   asp-route-title="@(Model.UsersFilterViewModel.SelectedTitle)"
+                   asp-route-email="@(Model.UsersFilterViewModel.SelectedEmail)" class="admin__table__cell">
+                    <h4>Дата народження</h4>
+                </a>
+                <a asp-action="Users"
+                   asp-route-sortOrder="@(Model.SortUserViewModel.SexSort)"
+                   asp-route-title="@(Model.UsersFilterViewModel.SelectedTitle)"
+                   asp-route-email="@(Model.UsersFilterViewModel.SelectedEmail)" class="admin__table__cell">
+                    <h4>Стать</h4>
+                </a>
+                <a asp-action="Users"
+                   asp-route-sortOrder="@(Model.SortUserViewModel.RegistDateSort)"
+                   asp-route-title="@(Model.UsersFilterViewModel.SelectedTitle)"
+                   asp-route-email="@(Model.UsersFilterViewModel.SelectedEmail)" class="admin__table__cell">
+                    <h4>Дата реєстрації</h4>
+                </a>
+                <a asp-action="Users"
+                   asp-route-sortOrder="@(Model.SortUserViewModel.BonusesSort)"
+                   asp-route-title="@(Model.UsersFilterViewModel.SelectedTitle)"
+                   asp-route-email="@(Model.UsersFilterViewModel.SelectedEmail)" class="admin__table__cell">
+                    <h4>Бонуси</h4>
+                </a>
+                <a asp-action="Users"
+                   asp-route-sortOrder="@(Model.SortUserViewModel.EmailSort)"
+                   asp-route-title="@(Model.UsersFilterViewModel.SelectedTitle)"
+                   asp-route-email="@(Model.UsersFilterViewModel.SelectedEmail)" class="admin__table__cell">
+                    <h4>Email</h4>
+                </a>
+                <a asp-action="Users"
+                   asp-route-sortOrder="@(Model.SortUserViewModel.TwoFactorSort)"
+                   asp-route-title="@(Model.UsersFilterViewModel.SelectedTitle)"
+                   asp-route-email="@(Model.UsersFilterViewModel.SelectedEmail)" class="admin__table__cell">
+                    <h4>Двух-факторна аутентифікація</h4>
+                </a>
+                <div class="admin__table__cell">
+                    <h4>Ролі</h4>
+                </div>
+                <div class="admin__table__cell"></div>
+            </div>
+            @foreach (UserRole user in Model.Users)
+            {
+        <div class="admin__table__row">
+            <div class="admin__table__cell">
+                <img src="data:image/jpeg;base64,@(Convert.ToBase64String(user.User.Image))" alt="">
+            </div>
+            <div class="admin__table__cell">
+                <h5><a href="">@user.User.Name</a></h5>
+            </div>
+            <div class="admin__table__cell">
+                <h5>@user.User.Surname</h5>
+            </div>
+            <div class="admin__table__cell">
+                <h5>@user.User.Birthday.ToString("dd.MM.yyyy")</h5>
+            </div>
+            <div class="admin__table__cell">
+                @if (user.User.Male)
+                {
+                    <h5>Чоловік</h5>
+                }
+                else
+                {
+                    <h5>Жінка</h5>
+                }
+            </div>
+            <div class="admin__table__cell">
+                <h5>@user.User.RegistDate.ToString("dd.MM.yyyy HH:mm")</h5>
+            </div>
+            <div class="admin__table__cell">
+                <h5>@user.User.Bonuses</h5>
+            </div>
+            <div class="admin__table__cell">
+                <h5>@user.User.Email</h5>
+            </div>
+            <div class="admin__table__cell">
+                <h5>@user.User.TwoFactorEnabled</h5>
+            </div>
+            <div class="admin__table__cell">
+                @foreach (var item in user.Roles)
+                {
+                    <h5>@item</h5>
+                }
+            </div>
+            <div class="admin__table__cell" style="text-align: center; vertical-align: middle;">
+                <a class="admin__table__edit" asp-controller="AdminPanel" asp-action="EditRole" asp-route-userId="@user.User.Id">
+                    <h4>Права доступу</h4>
+                </a>
+            </div>
+        </div>
+            }
+        </div>
+    </div>
+</div>
+<script src="~/js/category.js"></script>
